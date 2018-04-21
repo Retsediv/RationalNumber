@@ -7,7 +7,10 @@
 #include <stdint-gcc.h>
 
 using std::runtime_error;
+using std::abs;
 using std::string;
+
+uintmax_t gcd(uintmax_t a, uintmax_t b);
 
 class DivideByZeroException : public std::runtime_error {
 public:
@@ -63,12 +66,12 @@ public:
 
     Rational operator-() const;
 
-    // invert numerator and denominator
-    Rational invert() const;
-
     inline Rational operator+() const {
         return *this;
     }
+
+    // invert numerator and denominator
+    Rational invert() const;
 
     // Casting
     inline double to_double() const {
@@ -78,6 +81,77 @@ public:
     inline double to_float() const {
         return static_cast<float>(numerator) / denominator;
     }
+
+    // Comparators
+#define ASSERT_CHECK_IF_REDUCED(obj) assert( (obj).denominator>0 && ( (obj).numerator== 0 || gcd(abs((obj).numerator), (obj).denominator)==1 ) )
+#define ASSERT_CHECK_IF_REDUCED_THIS ASSERT_CHECK_IF_REDUCED(*this);
+#define ASSERT_CHECK_IF_REDUCED_BOTH do{ ASSERT_CHECK_IF_REDUCED( *this ); ASSERT_CHECK_IF_REDUCED( rhs ); } while(false);
+
+    inline bool operator==(const Rational &rhs) const {
+        ASSERT_CHECK_IF_REDUCED_BOTH
+        return numerator == rhs.numerator && denominator == rhs.denominator;
+    }
+
+    inline bool operator==(int rhs) const {
+        ASSERT_CHECK_IF_REDUCED_THIS
+        return numerator == rhs && denominator == 1;
+    }
+
+    inline bool operator!=(const Rational &rhs) const {
+        ASSERT_CHECK_IF_REDUCED_BOTH
+        return numerator != rhs.numerator || denominator != rhs.denominator;
+    }
+
+    inline bool operator!=(int rhs) const {
+        ASSERT_CHECK_IF_REDUCED_THIS
+        return numerator != rhs || denominator != 1;
+    }
+
+    inline bool operator>(const Rational &rhs) const {
+        ASSERT_CHECK_IF_REDUCED_BOTH
+        return numerator * rhs.denominator > rhs.numerator * denominator;
+    }
+
+    inline bool operator>(int rhs) const {
+        ASSERT_CHECK_IF_REDUCED_THIS
+        return numerator > rhs * denominator;
+    }
+
+    inline bool operator<(const Rational &rhs) const {
+        ASSERT_CHECK_IF_REDUCED_BOTH
+        return numerator * rhs.denominator < rhs.numerator * denominator;
+    }
+
+    inline bool operator<(int rhs) const {
+        ASSERT_CHECK_IF_REDUCED_THIS
+        return numerator < rhs * denominator;
+    }
+
+    inline bool operator>=(const Rational &rhs) const {
+        ASSERT_CHECK_IF_REDUCED_BOTH
+        return numerator * rhs.denominator >= rhs.numerator * denominator;
+    }
+
+    inline bool operator>=(int rhs) const {
+        ASSERT_CHECK_IF_REDUCED_THIS
+        return numerator >= rhs * denominator;
+    }
+
+    inline bool operator<=(const Rational &rhs) const {
+        ASSERT_CHECK_IF_REDUCED_BOTH
+        return numerator * rhs.denominator <= rhs.numerator * denominator;
+    }
+
+    inline bool operator<=(int rhs) const {
+        ASSERT_CHECK_IF_REDUCED_THIS
+        return numerator <= rhs * denominator;
+    }
+
+
+#undef ASSERT_CHECK_IF_REDUCED_BOTH
+#undef ASSERT_CHECK_IF_REDUCED_THIS
+#undef ASSERT_CHECK_IF_REDUCED
+
 };
 
 inline Rational operator+(Rational lhs, const Rational &rhs) {
