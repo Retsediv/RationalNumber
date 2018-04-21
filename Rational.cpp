@@ -11,31 +11,30 @@ Rational &Rational::set(intmax_t num, intmax_t den) {
     throw DivideByZeroException();
 }
 
-void Rational::simplify() {
+uintmax_t gcd(uintmax_t a, uintmax_t b) {
+    assert(a != 0 && b != 0);
 
+    while (a != b) {
+        if (a > b)
+            a = a - b;
+        else
+            b = b - a;
+    }
+
+    return a;
 }
 
-//Rational &operator+=(const Rational &right) {
-//    return *this = Rational(
-//            right.denominator * numerator + denominator * right.numerator,
-//            denominator * right.denominator);
-//};
-//
-//Rational &operator-=(const Rational &right) {
-//    return *this = Rational(
-//            right.denominator * numerator - denominator * right.numerator,
-//            denominator * right.denominator);
-//}
-//
-//Rational &operator*=(const Rational &right) {
-//    return *this = Rational(
-//            numerator * right.numerator, denominator * right.denominator);
-//}
-//
-//Rational &operator/=(const Rational &right) {
-//    return *this = Rational(
-//            right.denominator * numerator, right.numerator * denominator);
-//}
+void Rational::simplify() {
+    if (denominator < 0) {
+        denominator = -denominator;
+        numerator = -numerator;
+    }
+
+    uintmax_t common_div = numerator > 0 ? gcd(numerator, denominator) : gcd(-numerator, denominator);
+    numerator /= common_div;
+    denominator /= common_div;
+
+}
 
 Rational &Rational::operator+=(const Rational &right) {
     numerator = numerator * right.denominator + denominator * right.numerator;
@@ -45,7 +44,7 @@ Rational &Rational::operator+=(const Rational &right) {
 }
 
 Rational &Rational::operator+=(int right) {
-    numerator = numerator + denominator*right;
+    numerator = numerator + denominator * right;
     simplify();
     return *this;
 }
@@ -58,7 +57,7 @@ Rational &Rational::operator-=(const Rational &right) {
 }
 
 Rational &Rational::operator-=(int right) {
-    numerator = numerator - denominator*right;
+    numerator = numerator - denominator * right;
     simplify();
     return *this;
 }

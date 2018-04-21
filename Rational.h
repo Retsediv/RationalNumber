@@ -2,6 +2,7 @@
 #define RATIONALNUMBER_RATIONAL_H
 
 #include <exception>
+#include <cassert>
 #include <stdexcept>
 #include <stdint-gcc.h>
 
