@@ -8,15 +8,14 @@ using std::endl;
 
 
 int main() {
-    Rational r{1, 2};
+    Rational f{1, 2};
+    Rational s{1, 4};
 
-    cout << r.getDenominator() << endl;
-    cout << r.getNumerator() << endl;
+    f += s;
 
-    try {
-        r.set(1, 0);
-    } catch (DivideByZeroException& e){
-        cout << e.what() << endl;
-    }
+    cout << f.getNumerator() << endl;
+    cout << f.getDenominator() << endl;
+
+
     return 0;
 }

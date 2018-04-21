@@ -3,6 +3,7 @@
 
 #include <exception>
 #include <stdexcept>
+#include <stdint-gcc.h>
 
 using std::runtime_error;
 using std::string;
@@ -15,9 +16,6 @@ public:
         return runtime_error::what();
     }
 };
-
-
-#include <stdint-gcc.h>
 
 class Rational {
 private:
@@ -43,8 +41,90 @@ public:
     }
 
     // setters
-    const Rational &set(intmax_t num, intmax_t den);
+    Rational &set(intmax_t num, intmax_t den);
+
+    // operators
+    Rational &operator+=(const Rational &right);
+
+    Rational &operator+=(int right);
+
+    Rational &operator-=(const Rational &right);
+
+    Rational &operator-=(int right);
+
+    Rational &operator*=(const Rational &right);
+
+    Rational &operator*=(int right);
+
+    Rational &operator/=(const Rational &right);
+
+    Rational &operator/=(int right);
+
+    Rational operator-() const;
+
+    // invert numerator and denominator
+    Rational invert() const;
+
+    inline Rational operator+() const {
+        return *this;
+    }
+
+    // Casting
+    inline double to_double() const {
+        return static_cast<double>(numerator) / denominator;
+    }
+
+    inline double to_float() const {
+        return static_cast<float>(numerator) / denominator;
+    }
 };
 
+inline Rational operator+(Rational lhs, const Rational &rhs) {
+    return lhs += rhs;
+}
+
+inline Rational operator+(Rational lhs, int rhs) {
+    return lhs += rhs;
+}
+
+inline Rational operator+(int lhs, Rational rhs) {
+    return rhs += lhs;
+}
+
+inline Rational operator*(Rational lhs, const Rational &rhs) {
+    return lhs *= rhs;
+}
+
+inline Rational operator*(Rational lhs, int rhs) {
+    return lhs *= rhs;
+}
+
+inline Rational operator*(int lhs, Rational rhs) {
+    return rhs *= lhs;
+}
+
+inline Rational operator-(Rational lhs, const Rational &rhs) {
+    return lhs -= rhs;
+}
+
+inline Rational operator-(Rational lhs, int rhs) {
+    return lhs -= rhs;
+}
+
+inline Rational operator-(int lhs, Rational rhs) {
+    return (-rhs) += lhs;
+}
+
+inline Rational operator/(Rational lhs, const Rational &rhs) {
+    return lhs /= rhs;
+}
+
+inline Rational operator/(Rational lhs, int rhs) {
+    return lhs /= rhs;
+}
+
+inline Rational operator/(int lhs, Rational rhs) {
+    return rhs.invert() * lhs;
+}
 
 #endif
