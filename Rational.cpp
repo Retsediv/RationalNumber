@@ -1,17 +1,17 @@
 #include "Rational.h"
 
 Rational &Rational::set(intmax_t num, intmax_t den) {
-    if (den != 0) {
-        numerator = num;
-        denominator = den;
-
-        simplify();
+    if(den == 0){
+        throw DivideByZeroException();
     }
 
-    throw DivideByZeroException();
+    numerator = num;
+    denominator = den;
+
+    simplify();
 }
 
-uintmax_t gcd(uintmax_t a, uintmax_t b) {
+uintmax_t gcd(intmax_t a, intmax_t b) {
     assert(a != 0 && b != 0);
 
     while (a != b) {
@@ -25,15 +25,19 @@ uintmax_t gcd(uintmax_t a, uintmax_t b) {
 }
 
 void Rational::simplify() {
+    if(numerator == 0){
+        denominator = 1;
+        return;
+    }
+
     if (denominator < 0) {
         denominator = -denominator;
         numerator = -numerator;
     }
 
-    uintmax_t common_div = numerator > 0 ? gcd(numerator, denominator) : gcd(-numerator, denominator);
+    intmax_t common_div = numerator > 0 ? gcd(numerator, denominator) : gcd(-numerator, denominator);
     numerator /= common_div;
     denominator /= common_div;
-
 }
 
 Rational &Rational::operator+=(const Rational &right) {

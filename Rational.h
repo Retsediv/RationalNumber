@@ -18,21 +18,19 @@ private:
     intmax_t numerator, denominator;
 
     void simplify();
-
 public:
     // Constructors
     Rational(intmax_t num, intmax_t den) : numerator(num), denominator(den) {
+        if(den == 0){
+            throw DivideByZeroException();
+        }
+
         simplify();
     };
 
     // getters
-    intmax_t getNumerator() const {
-        return numerator;
-    }
-
-    intmax_t getDenominator() const {
-        return denominator;
-    }
+    intmax_t getNumerator() const { return numerator; }
+    intmax_t getDenominator() const { return denominator; }
 
     // setters
     Rational &set(intmax_t num, intmax_t den);

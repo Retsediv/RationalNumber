@@ -11,11 +11,12 @@ int main() {
     Rational f{100, 110};
     Rational s{1, 4};
 
-//    f += s;
+    f += s;
 
     cout << f.getNumerator() << endl;
     cout << f.getDenominator() << endl;
 
+    f.set(5, 1);
 
     return 0;
 }
