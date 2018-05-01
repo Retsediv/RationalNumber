@@ -5,21 +5,12 @@
 #include <cassert>
 #include <stdexcept>
 #include <stdint-gcc.h>
+#include "Exeptions.h"
 
-using std::runtime_error;
 using std::abs;
 using std::string;
 
 uintmax_t gcd(uintmax_t a, uintmax_t b);
-
-class DivideByZeroException : public std::runtime_error {
-public:
-    DivideByZeroException() : runtime_error("Division by zero(0) happened!") {}
-
-    virtual const char *what() const throw() {
-        return runtime_error::what();
-    }
-};
 
 class Rational {
 private:

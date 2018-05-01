@@ -8,10 +8,10 @@ using std::endl;
 
 
 int main() {
-    Rational f{1, 2};
+    Rational f{100, 110};
     Rational s{1, 4};
 
-    f += s;
+//    f += s;
 
     cout << f.getNumerator() << endl;
     cout << f.getDenominator() << endl;
