@@ -12,7 +12,7 @@ find_package(Threads REQUIRED)
 file(GLOB SRC_FILES
         main.cpp
         Rational.*
-        Exeptions.h)
+        Exceptions.h)
 add_executable(RationalNumber ${SRC_FILES})
 
 

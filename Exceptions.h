@@ -6,7 +6,7 @@
 
 using std::runtime_error;
 
-class RationalExeption : public std::exception {
+class RationalException : public std::exception {
 public:
     const char *what() const throw() {
         return "An error happened with rational number.";

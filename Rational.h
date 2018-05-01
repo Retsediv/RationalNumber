@@ -6,7 +6,7 @@
 #include <stdexcept>
 #include <stdint-gcc.h>
 #include <cmath>
-#include "Exeptions.h"
+#include "Exceptions.h"
 
 using std::abs;
 using std::string;
