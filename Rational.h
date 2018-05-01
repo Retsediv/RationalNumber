@@ -5,6 +5,7 @@
 #include <cassert>
 #include <stdexcept>
 #include <stdint-gcc.h>
+#include <cmath>
 #include "Exeptions.h"
 
 using std::abs;
@@ -23,8 +24,6 @@ public:
     Rational(intmax_t num, intmax_t den) : numerator(num), denominator(den) {
         simplify();
     };
-
-    Rational(const Rational &rational) : numerator(rational.getNumerator()), denominator(rational.getDenominator()) {};
 
     // getters
     intmax_t getNumerator() const {
@@ -60,6 +59,8 @@ public:
     inline Rational operator+() const {
         return *this;
     }
+
+    Rational pow(size_t p);
 
     // invert numerator and denominator
     Rational invert() const;
@@ -177,7 +178,7 @@ inline Rational operator-(Rational lhs, int rhs) {
     return lhs -= rhs;
 }
 
-inline Rational operator-(int lhs, Rational rhs) {
+inline Rational operator-(int lhs, const Rational &rhs) {
     return (-rhs) += lhs;
 }
 
@@ -189,7 +190,7 @@ inline Rational operator/(Rational lhs, int rhs) {
     return lhs /= rhs;
 }
 
-inline Rational operator/(int lhs, Rational rhs) {
+inline Rational operator/(int lhs, const Rational &rhs) {
     return rhs.invert() * lhs;
 }
 

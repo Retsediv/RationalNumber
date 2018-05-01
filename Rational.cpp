@@ -99,3 +99,10 @@ Rational Rational::invert() const {
     res.set(denominator, numerator);
     return res;
 }
+
+Rational Rational::pow(size_t p) {
+    Rational res(*this);
+
+    res.set(static_cast<intmax_t>(std::pow(numerator, p)), static_cast<intmax_t>(std::pow(denominator, p)));
+    return res;
+}
